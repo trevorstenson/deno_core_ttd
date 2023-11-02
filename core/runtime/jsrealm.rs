@@ -201,6 +201,7 @@ impl JsRealmInner {
     &self,
     isolate: &'s mut v8::Isolate,
   ) -> v8::HandleScope<'s> {
+    println!("handle_scope {:?}", self.context);
     v8::HandleScope::with_context(isolate, &*self.context)
   }
 
@@ -374,6 +375,7 @@ impl JsRealm {
     let scope = &mut self.0.handle_scope(isolate);
 
     let source = Self::string_from_code(scope, &source_code).unwrap();
+    println!("source: {:?}", source);
     debug_assert!(name.is_ascii());
     let name =
       v8::String::new_external_onebyte_static(scope, name.as_bytes()).unwrap();
